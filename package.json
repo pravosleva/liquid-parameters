@@ -24,11 +24,10 @@
     "url": "git+https://github.com/pravosleva/liquid-parameters.git"
   },
   "keywords": [
-    "boilerplate",
-    "npm",
-    "module",
-    "node",
-    "javascript"
+    "liquid",
+    "glycole",
+    "жидкость",
+    "гликоль"
   ],
   "author": "Dinesh Pandiyan <selection4test@gmail.com>",
   "license": "MIT",
