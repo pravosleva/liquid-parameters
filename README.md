@@ -8,20 +8,62 @@ _NPM Module Boilerplate based_
 yarn add liquid-parameters
 ```
 
-## Usage samples
-
-### Linear interpolation example
+## import
 ```javascript
 import LiquidParameters from 'liquid-parameters';
+```
 
-console.log(
-  LiquidParameters.cp({
-    liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
-    percentage: 100.0,
-    temperature: (7 + 12) * 0.5,
-  }).result
-);
-// 4.19 kJ/kg.K by default
+## Usage samples
+
+- [LiquidParameters.cp](#cp)
+- [LiquidParameters.freezingTemperature](#freezingTemperature)
+- [LiquidParameters.density](#density)
+
+### cp
+```javascript
+LiquidParameters.cp({
+  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
+  percentage: 100.0,
+  temperature: (7 + 12) * 0.5,
+});
+
+/* Output:
+  {
+    result, // 4.19 // num, kJ/kg.K
+    error, // bool
+    report, // str
+  }
+*/
+```
+
+### freezingTemperature
+```javascript
+LiquidParameters.freezingTemperature({
+  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
+  percentage: 100.0,
+});
+
+/* Output:
+  0 // num, C
+*/
+```
+
+### density
+```javascript
+LiquidParameters.density({
+  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
+  temperature: (7 + 12) / 2,
+  percentage: 100.0,
+});
+
+/* Output:
+  {
+    diagram, // service object
+    error, // bool
+    result: 999.77, // num, kg/m3
+    report, // str
+  }
+*/
 ```
 
 # Original ReadMe
