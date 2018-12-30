@@ -55,6 +55,6 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "interpolate-by-pravosleva": "^1.1.5"
+    "interpolate-by-pravosleva": "2"
   }
 }
