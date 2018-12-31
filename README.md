@@ -18,6 +18,9 @@ import LiquidParameters from 'liquid-parameters';
 - [LiquidParameters.cp](#cp)
 - [LiquidParameters.freezingTemperature](#freezingTemperature)
 - [LiquidParameters.density](#density)
+- [LiquidParameters.getRe](#getRe)
+- [LiquidParameters.getKinematicViscosity](#getKinematicViscosity)
+- [LiquidParameters.getTubePressureDrop](#getTubePressureDrop)
 
 ### cp
 ```javascript
@@ -39,13 +42,11 @@ LiquidParameters.cp({
 ### freezingTemperature
 ```javascript
 LiquidParameters.freezingTemperature({
-  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
-  percentage: 100.0,
+  liquidType: 'MEG', // Possible values: 'WATER', 'MEG', 'MPG'
+  percentage: 27,
 });
 
-/* Output:
-  0 // num, C
-*/
+// Output: -11.5 // num, C
 ```
 
 ### density
@@ -60,11 +61,65 @@ LiquidParameters.density({
   {
     diagram, // service object
     error, // bool
-    result: 999.77, // num, kg/m3
+    result: 999.7675, // num, kg/m3
     report, // str
   }
 */
 ```
+
+### getRe
+```javascript
+LiquidParameters.getRe({
+  flow, // num, m3/h
+  diameter,
+  kinematicViscosity,
+});
+
+/* Output:
+  {
+    v,// num, m/s
+    result, // num
+  }
+*/
+```
+
+### getKinematicViscosity
+```javascript
+LiquidParameters.getKinematicViscosity({
+  liquidType: 'MEG', // Possible values: 'WATER', 'MEG', 'MPG'
+  temperature: (7 + 12) / 2,
+  percentage: 27,
+});
+
+/* Output:
+  {
+    result: 2.8975, // num
+    msg, // str
+  }
+*/
+```
+
+### getTubePressureDrop
+```javascript
+LiquidParameters.getTubePressureDrop({
+  Re,
+  tubeLength,
+  tubeDiameter,
+  density,
+  v,
+});
+
+/* Output:
+  {
+    kPa, // num
+    bar, // num
+  }
+*/
+```
+
+## License
+
+MIT © Den Pol
 
 # Original ReadMe
 

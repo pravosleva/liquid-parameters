@@ -2,6 +2,7 @@
 
 import interpolate from 'interpolate-by-pravosleva';
 
+// C P
 const cp = ({
   liquidType,
   percentage,
@@ -105,6 +106,8 @@ const cp = ({
   report = `${liquidType} cp report: ${report}`;
   return { result, error, report };
 };
+
+// F R E E Z I N G   T E M P E R A T U R E
 const freezingTemperature = ({ liquidType, percentage }) => {
   // This function created to get freezingTemperature by Liquid type & %
   let dataObj = [];
@@ -136,6 +139,8 @@ const freezingTemperature = ({ liquidType, percentage }) => {
     tableAsDoubleArray: dataObj
   });
 };
+
+// D E N S I T Y
 const density = ({ liquidType, temperature, percentage }) => {
   const diagram = {};
   let result;
@@ -433,8 +438,112 @@ const density = ({ liquidType, temperature, percentage }) => {
   };
 };
 
+/* eslint-disable no-mixed-operators */
+
+// R E
+const getRe = ({
+  flow,
+  diameter,
+  kinematicViscosity,
+}) => {
+  const v = flow / 3600 / 1 / (Math.PI * (diameter ** 2) / 4);
+
+  return {
+    result: v * diameter / kinematicViscosity * 1000000,
+    v,
+  };
+};
+
+// K I N E M A T I C   V I S C O S I T Y
+const getKinematicViscosity = ({
+  liquidType,
+  percentage,
+  temperature,
+}) => {
+  let result;
+  let msg;
+
+  switch (liquidType) {
+    case 'MEG':
+      result = interpolate.byInternalTable({
+        x: temperature,
+        y: percentage,
+        tableAsDoubleArray: [
+          [0.0,   -40.0,  -20.0,  -10.0,  0.0,    20.0,   40.0,   60.0,   80.0,   100.0],
+          [0.0,   1.789,  1.789,  1.789,  1.789,  1.006,  0.659,  0.478,  0.365,  0.295],
+          [20.0,  5.000,  5.0000, 5.0,    3,      1.6,    1.0,    0.7,    0.52,   0.41],
+          [34.0,  11.000, 11.0,   10.000, 4.6,    2.2,    1.5,    0.98,   0.68,   0.51],
+          [52.0,  100.0,  25.0,   24.000, 9.5,    4.5,    2.4,    1.5,    1.0,    0.7],
+        ],
+      });
+      if (percentage > 45.0 || percentage < 25.0) {
+        msg = `Кинематическая вязкость может быть расчитана корректно для ${liquidType} 20% .. 52%`;
+        result = 0.0;
+      } else {
+        msg = `Kinematic Viscosity ${liquidType} ${percentage}% for t = ${temperature} C`;
+      }
+      break;
+    case 'MPG':
+      result = interpolate.byInternalTable({
+        x: temperature,
+        y: percentage,
+        tableAsDoubleArray: [
+          [0.0,   -30.0,  -20.0,  -10.0,  0.0,    20.0,   40.0,   60.0,   80.0,   100.0],
+          [0.0,   1.789,  1.789,  1.789,  1.789,  1.006,  0.659,  0.478,  0.365,  0.295],
+          [25.0,  9.900,  9.900,  9.9,    6.0,    2.8,    1.4,    0.9,    0.68,   0.52],
+          [37.0,  45.000, 45.0,   44.000, 12.0,   4.4,    2.2,    1.3,    0.9,    0.7],
+          [45.0,  150.0,  70.0,   30.0,   18.0,   6.0,    2.9,    1.6,    1.1,    0.82],
+        ],
+      });
+      if (percentage > 45.0 || percentage < 25.0) {
+        msg = `Кинематическая вязкость может быть расчитана корректно для ${liquidType} 25% .. 45%`;
+      } else {
+        msg = `Kinematic Viscosity ${liquidType} ${percentage}% t = ${temperature} C`;
+      }
+      break;
+    default: // WATER
+      result = interpolate.byInternalTable({
+        x: temperature,
+        y: 1,
+        tableAsDoubleArray: [
+          [0.0, 0.0,    20.0,    40.0,    60.0,    80.0,    100.0,    120.0,  140.0,  160.0,  180.0,  200.0,  220.0,  240.0,  260.0,  280.0,  300.0],
+          [1,   1.789,  1.006,   0.659,   0.478,   0.365,   0.295,    0.252,  0.217,  0.191,  0.173,  0.158,  0.148,  0.141,  0.135,  0.131,  0.128],
+        ],
+      });
+      msg = `${liquidType} Kinematic Viscosity calculated`;
+  }
+  return { result, msg };
+};
+
+// T U B E   P R E S S U R E   D R O P
+const getTubePressureDrop = ({
+  Re,
+  tubeLength,
+  tubeDiameter,
+  density: _density,
+  v,
+}) => {
+  let f;
+
+  if (Re < 2100) {
+    f = 64 / Re;
+  } else {
+    f = 1.325 / (Math.log((0.000001527 / (3.7 * tubeDiameter / 1000)) + (5.74 / (Re ** 0.9))) ** 2);
+  }
+
+  const pd = f * tubeLength / (tubeDiameter) * 1 / 2 * _density * (v ** 2);
+
+  return {
+    kPa: pd / 1000,
+    bar: pd / 100000,
+  };
+};
+
 export default {
   cp,
   freezingTemperature,
   density,
+  getRe,
+  getKinematicViscosity,
+  getTubePressureDrop,
 };
