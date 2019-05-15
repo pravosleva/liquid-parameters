@@ -25,14 +25,14 @@ import LiquidParameters from 'liquid-parameters';
 ### cp
 ```javascript
 LiquidParameters.cp({
-  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
+  liquidType: 'WATER', // ('WATER'|'MEG'|'MPG')
   percentage: 100.0,
   temperature: (7 + 12) * 0.5,
 });
 
 /* Output:
   {
-    result, // 4.19 // num, kJ/kg.K
+    result: 4.19, // kJ/kg.K
     error, // bool
     report, // str
   }
@@ -42,17 +42,17 @@ LiquidParameters.cp({
 ### freezingTemperature
 ```javascript
 LiquidParameters.freezingTemperature({
-  liquidType: 'MEG', // Possible values: 'WATER', 'MEG', 'MPG'
+  liquidType: 'MEG', // ('WATER'|'MEG'|'MPG')
   percentage: 27,
 });
 
-// Output: -11.5 // num, C
+// Output: -11.5 // C
 ```
 
 ### density
 ```javascript
 LiquidParameters.density({
-  liquidType: 'WATER', // Possible values: 'WATER', 'MEG', 'MPG'
+  liquidType: 'WATER', // ('WATER'|'MEG'|'MPG')
   temperature: (7 + 12) / 2,
   percentage: 100.0,
 });
@@ -61,7 +61,7 @@ LiquidParameters.density({
   {
     diagram, // service object
     error, // bool
-    result: 999.7675, // num, kg/m3
+    result: 999.7675, // kg/m3
     report, // str
   }
 */
@@ -70,15 +70,15 @@ LiquidParameters.density({
 ### getRe
 ```javascript
 LiquidParameters.getRe({
-  flow, // num, m3/h
-  diameter,
-  kinematicViscosity,
+  flow, // m3/h
+  diameter, // m
+  kinematicViscosity, // m2/s (x10^-6)
 });
 
 /* Output:
   {
-    v,// num, m/s
-    result, // num
+    v,// m/s
+    result, // no dims
   }
 */
 ```
@@ -86,14 +86,14 @@ LiquidParameters.getRe({
 ### getKinematicViscosity
 ```javascript
 LiquidParameters.getKinematicViscosity({
-  liquidType: 'MEG', // Possible values: 'WATER', 'MEG', 'MPG'
+  liquidType: 'MEG', // ('WATER'|'MEG'|'MPG')
   temperature: (7 + 12) / 2,
   percentage: 27,
 });
 
 /* Output:
   {
-    result: 2.8975, // num
+    result: 2.8975, // m2/s (x10^-6)
     msg, // str
   }
 */
@@ -111,33 +111,11 @@ LiquidParameters.getTubePressureDrop({
 
 /* Output:
   {
-    kPa, // num
-    bar, // num
+    kPa,
+    bar,
   }
 */
 ```
-
-## License
-
-MIT © Den Pol
-
-# Original ReadMe
-
-[![Build Status](https://travis-ci.org/flexdinesh/npm-module-boilerplate.svg?branch=master)](https://travis-ci.org/flexdinesh/npm-module-boilerplate) [![dependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate) [![devDependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/dev-status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate?type=dev) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
-**Start developing your NPM module in seconds** ✨
-
-Readymade boilerplate setup with all the best practices to kick start your npm/node module development.
-
-Happy hacking =)
-
-## Features
-
-* **ES6/ESNext** - Write _ES6_ code and _Babel_ will transpile it to ES5 for backwards compatibility
-* **Test** - _Mocha_ with _Istanbul_ coverage
-* **Lint** - Preconfigured _ESlint_ with _Airbnb_ config
-* **CI** - _TravisCI_ configuration setup
-* **Minify** - Built code will be minified for performance
 
 ## Commands
 - `npm run clean` - Remove `lib/` directory
@@ -151,10 +129,6 @@ Happy hacking =)
 - `npm run build` - Babel will transpile ES6 => ES5 and minify the code.
 - `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
 
-## Installation
-Just clone this repo and remove `.git` folder.
-
-
 ## License
 
-MIT © Dinesh Pandiyan
+MIT © Den Pol

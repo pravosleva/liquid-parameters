@@ -1,6 +1,6 @@
 {
   "name": "liquid-parameters",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Liquid parameters calc",
   "main": "./lib/index.js",
   "scripts": {

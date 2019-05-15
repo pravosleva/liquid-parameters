@@ -442,15 +442,17 @@ const density = ({ liquidType, temperature, percentage }) => {
 
 // R E
 const getRe = ({
-  flow,
-  diameter,
-  kinematicViscosity,
+  flow, // m3/h
+  diameter, // m
+  kinematicViscosity, // m2/s
 }) => {
-  const v = flow / 3600 / 1 / (Math.PI * (diameter ** 2) / 4);
+  const v = (flow / 3600) / (Math.PI * (diameter ** 2) / 4);
 
   return {
-    result: v * diameter / kinematicViscosity * 1000000,
     v,
+    result: v * diameter / (kinematicViscosity * (10 ** (-6))),
+    // http://www.hydro-pnevmo.ru/topic.php?ID=213
+    // result: ((flow / 3600) * 4 * (diameter / 4)) / (kinematicViscosity * 1 * (10 ** (-6))),
   };
 };
 
