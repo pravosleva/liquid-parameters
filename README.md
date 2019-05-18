@@ -8,17 +8,21 @@ _NPM Module Boilerplate based_
 yarn add liquid-parameters
 ```
 
-## import
+## Usage samples
+
 ```javascript
 import LiquidParameters from 'liquid-parameters';
+
+// Or separate static methods like this:
+import { cp } from 'liquid-parameters';
 ```
 
-## Usage samples
+_So, you can use methods below_
 
 - [LiquidParameters.cp](#cp)
 - [LiquidParameters.freezingTemperature](#freezingTemperature)
 - [LiquidParameters.density](#density)
-- [LiquidParameters.getRe](#getRe)
+- [LiquidParameters.getRe](#getRe) _Need to review!_
 - [LiquidParameters.getKinematicViscosity](#getKinematicViscosity)
 - [LiquidParameters.getTubePressureDrop](#getTubePressureDrop)
 
@@ -26,8 +30,8 @@ import LiquidParameters from 'liquid-parameters';
 ```javascript
 LiquidParameters.cp({
   liquidType: 'WATER', // ('WATER'|'MEG'|'MPG')
-  percentage: 100.0,
-  temperature: (7 + 12) * 0.5,
+  percentage: 100.0, // % (if WATER then should be 100)
+  temperature: (7 + 12) * 0.5, // C
 });
 
 /* Output:
@@ -43,7 +47,7 @@ LiquidParameters.cp({
 ```javascript
 LiquidParameters.freezingTemperature({
   liquidType: 'MEG', // ('WATER'|'MEG'|'MPG')
-  percentage: 27,
+  percentage: 27, // % (if WATER then should be 100)
 });
 
 // Output: -11.5 // C
@@ -53,15 +57,15 @@ LiquidParameters.freezingTemperature({
 ```javascript
 LiquidParameters.density({
   liquidType: 'WATER', // ('WATER'|'MEG'|'MPG')
-  temperature: (7 + 12) / 2,
-  percentage: 100.0,
+  temperature: (7 + 12) / 2, // C
+  percentage: 100.0, // % (if WATER then should be 100)
 });
 
 /* Output:
   {
     diagram, // service object
     error, // bool
-    result: 999.7675, // kg/m3
+    result, // kg/m3
     report, // str
   }
 */
@@ -78,7 +82,7 @@ LiquidParameters.getRe({
 /* Output:
   {
     v,// m/s
-    result, // no dims
+    result, // dimensionless
   }
 */
 ```
@@ -87,8 +91,8 @@ LiquidParameters.getRe({
 ```javascript
 LiquidParameters.getKinematicViscosity({
   liquidType: 'MEG', // ('WATER'|'MEG'|'MPG')
-  temperature: (7 + 12) / 2,
-  percentage: 27,
+  temperature: (7 + 12) / 2, // C
+  percentage: 27, // % (if WATER then should be 100)
 });
 
 /* Output:
@@ -102,11 +106,11 @@ LiquidParameters.getKinematicViscosity({
 ### getTubePressureDrop
 ```javascript
 LiquidParameters.getTubePressureDrop({
-  Re,
-  tubeLength,
-  tubeDiameter,
-  density,
-  v,
+  Re, // dimensionless
+  tubeLength, // m
+  tubeDiameter, // m
+  density, // kg/m3
+  v, // m/s
 });
 
 /* Output:

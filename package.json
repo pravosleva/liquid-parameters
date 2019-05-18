@@ -1,6 +1,6 @@
 {
   "name": "liquid-parameters",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Liquid parameters calc",
   "main": "./lib/index.js",
   "scripts": {
@@ -24,10 +24,14 @@
     "url": "git+https://github.com/pravosleva/liquid-parameters.git"
   },
   "keywords": [
+    "hvac",
+    "water",
     "liquid",
     "glycole",
     "жидкость",
-    "гликоль"
+    "гликоль",
+    "механика",
+    "жидкости"
   ],
   "author": "Den Pol <selection4test@gmail.com>",
   "license": "MIT",
