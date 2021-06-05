@@ -102,9 +102,9 @@ export default class LiquidParameters {
             tableAsDoubleArray: dataObj,
           });
           report += ` / Interpolate by table values result (inside the table), cp= ${result.toFixed(2)} kJ/kg.K`;
-        } else { // more than 45.0%
+        } else { // more than 60.0%
           result = 3.8;
-          report = `Out of main percentage range. Liquid percentage should have value between 0 and 45 %. Was set as ${result.toFixed(2)} kJ/kg.K`;
+          report = `Out of main percentage range. Liquid percentage should have value between 0 and 60 %. Was set as ${result.toFixed(2)} kJ/kg.K`;
         }
 
         // ...
